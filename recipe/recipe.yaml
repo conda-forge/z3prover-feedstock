@@ -13,7 +13,7 @@ source:
   sha256: 4071977e66e9f3d239b7b098ceddfe62ffdf3c71e345e9524a4a5001d1f4adf3
 
 build:
-  number: 1
+  number: 2
   skip: win
 
 requirements:
@@ -35,7 +35,7 @@ requirements:
   run:
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x') }}
-  
+
 tests:
   - script:
       - if: linux
