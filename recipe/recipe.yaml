@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: z3prover
-  version: "4.15.2"
+  version: "4.15.3"
 
 package:
   name: ${{ name }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: 3486bf5b35b185981cab0b0a81f870547648a1ca433085aa79afd17c44959751
+  sha256: 8cfd4d6ab47cafe931446e2c03e10df651d40487730c819f1bf420987144824f
 
 build:
   number: 0
