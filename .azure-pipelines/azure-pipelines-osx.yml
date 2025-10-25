@@ -5,29 +5,13 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-13
+    vmImage: macOS-15
   strategy:
     matrix:
-      osx_64_channel_sourcesconda-forgeconda-forgelabelpython_rcpython3.14.____cp314:
-        CONFIG: osx_64_channel_sourcesconda-forgeconda-forgelabelpython_rcpython3.14.____cp314
+      osx_64_:
+        CONFIG: osx_64_
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_channel_sourcesconda-forgeconda-f_hf351ff0f
-      osx_64_channel_sourcesconda-forgepython3.10.____cpython:
-        CONFIG: osx_64_channel_sourcesconda-forgepython3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_channel_sourcesconda-forgepython3_h0ca3c4e1
-      osx_64_channel_sourcesconda-forgepython3.11.____cpython:
-        CONFIG: osx_64_channel_sourcesconda-forgepython3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_channel_sourcesconda-forgepython3_hd8a19026
-      osx_64_channel_sourcesconda-forgepython3.12.____cpython:
-        CONFIG: osx_64_channel_sourcesconda-forgepython3.12.____cpython
-        UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_channel_sourcesconda-forgepython3_h0def7ba4
-      osx_64_channel_sourcesconda-forgepython3.13.____cp313:
-        CONFIG: osx_64_channel_sourcesconda-forgepython3.13.____cp313
-        UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_channel_sourcesconda-forgepython3_ha73a9a5d
+        SHORT_CONFIG: osx_64_
   timeoutInMinutes: 360
   variables: {}
 
