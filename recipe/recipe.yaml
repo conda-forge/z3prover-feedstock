@@ -29,11 +29,14 @@ outputs:
         - if: osx
           then: llvm-openmp
       host:
-        - python
+        - python *
         - if: linux
           then: libgomp
         - if: osx
           then: llvm-openmp
+      ignore_run_exports:
+        from_package:
+          - python
       run_exports:
         - ${{ pin_subpackage("libz3", upper_bound='x') }}
       run_constraints:
