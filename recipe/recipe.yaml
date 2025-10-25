@@ -18,6 +18,9 @@ build:
 outputs:
   - package:
       name: libz3
+    build:
+      script:
+        - build_lib
     requirements:
       build:
         - ${{ stdlib('c') }}
