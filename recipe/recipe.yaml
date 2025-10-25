@@ -99,6 +99,7 @@ outputs:
         - if: osx
           then: llvm-openmp
       host:
+        - ${{ pin_subpackage("libz3", exact=True) }}
         - python
         - setuptools
         - pip
@@ -107,6 +108,7 @@ outputs:
         - if: osx
           then: llvm-openmp
       run:
+        - ${{ pin_subpackage("libz3", exact=True) }}
         - python
 
     tests:
