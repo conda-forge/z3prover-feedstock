@@ -84,6 +84,38 @@ outputs:
         - z3 --help
 
   - package:
+      name: z3-solver
+    build:
+      script:
+        - build_py
+    requirements:
+      build:
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      host:
+        - python
+        - setuptools
+        - pip
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      run:
+        - python
+
+    tests:
+      - python:
+          imports:
+            - z3
+          pip_check: true
+
+  - package:
       # compatibility for previous name of library
       name: z3prover
     requirements:
