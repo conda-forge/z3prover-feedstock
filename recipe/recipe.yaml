@@ -53,10 +53,10 @@ outputs:
             # versioned libraries
             - if: linux
               then:
-              - lib/libz3${SHLIB_EXT}.${{ version }}*
+              - lib/libz3.so.${{ version }}*
             - if: osx
               then:
-              - lib/libz3.${{ version }}*${SHLIB_EXT}
+              - lib/libz3.${{ version }}*.dylib
             # binaries
             - bin/z3
             # headers
