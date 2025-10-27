@@ -1,11 +1,10 @@
 schema_version: 1
 
 context:
-  name: z3prover
   version: "4.15.3"
 
-package:
-  name: ${{ name }}
+recipe:
+  name: z3prover
   version: ${{ version }}
 
 source:
@@ -13,57 +12,124 @@ source:
   sha256: 8cfd4d6ab47cafe931446e2c03e10df651d40487730c819f1bf420987144824f
 
 build:
-  number: 1
+  number: 2
   skip: win
 
-requirements:
-  build:
-    - ${{ stdlib('c') }}
-    - ${{ compiler('cxx') }}
-    - cmake
-    - ninja
-    - if: linux
-      then: libgomp
-    - if: osx
-      then: llvm-openmp
-  host:
-    - python
-    - if: linux
-      then: libgomp
-    - if: osx
-      then: llvm-openmp
-  run:
-  run_exports:
-    - ${{ pin_subpackage(name, upper_bound='x') }}
+outputs:
+  - package:
+      name: libz3
+    build:
+      script:
+        - build_lib
+    requirements:
+      build:
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      host:
+        - python *
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      ignore_run_exports:
+        from_package:
+          - python
+      run_exports:
+        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+      run_constraints:
+        - z3prover ==${{ version }}
 
-tests:
-  - script:
-      - if: linux
-        then: test -f ${PREFIX}/lib/libz3${SHLIB_EXT}.${{ version }}*
-      - if: osx
-        then: test -f ${PREFIX}/lib/libz3.${{ version }}*${SHLIB_EXT}
-      - test -f ${PREFIX}/lib/libz3${SHLIB_EXT}
-      - test -f ${PREFIX}/include/z3_algebraic.h
-      - test -f ${PREFIX}/include/z3_api.h
-      - test -f ${PREFIX}/include/z3_ast_containers.h
-      - test -f ${PREFIX}/include/z3_fixedpoint.h
-      - test -f ${PREFIX}/include/z3_fpa.h
-      - test -f ${PREFIX}/include/z3.h
-      - test -f ${PREFIX}/include/z3++.h
-      - test -f ${PREFIX}/include/z3_macros.h
-      - test -f ${PREFIX}/include/z3_optimization.h
-      - test -f ${PREFIX}/include/z3_polynomial.h
-      - test -f ${PREFIX}/include/z3_rcf.h
-      - test -f ${PREFIX}/include/z3_v1.h
-      - test -f ${PREFIX}/include/z3_spacer.h
-      - test -f ${PREFIX}/include/z3_version.h
-      - test -x ${PREFIX}/bin/z3
-      - test -f ${PREFIX}/lib/cmake/z3/Z3Targets.cmake
-      - test -f ${PREFIX}/lib/cmake/z3/Z3Targets-release.cmake
-      - test -f ${PREFIX}/lib/cmake/z3/Z3Config.cmake
-      - test -f ${PREFIX}/lib/cmake/z3/Z3ConfigVersion.cmake
-      - test -f ${PREFIX}/lib/pkgconfig/z3.pc
-      - z3 --help
+    tests:
+      - package_contents:
+          lib:
+            - z3
+          files:
+            # versioned libraries
+            - if: linux
+              then:
+              - lib/libz3.so.${{ version }}*
+            - if: osx
+              then:
+              - lib/libz3.${{ version }}*.dylib
+            # binaries
+            - bin/z3
+            # headers
+            - include/z3_algebraic.h
+            - include/z3_api.h
+            - include/z3_ast_containers.h
+            - include/z3_fixedpoint.h
+            - include/z3_fpa.h
+            - include/z3.h
+            - include/z3++.h
+            - include/z3_macros.h
+            - include/z3_optimization.h
+            - include/z3_polynomial.h
+            - include/z3_rcf.h
+            - include/z3_v1.h
+            - include/z3_spacer.h
+            - include/z3_version.h
+            # cmake & pkgconfig metadata
+            - lib/cmake/z3/Z3Targets.cmake
+            - lib/cmake/z3/Z3Targets-release.cmake
+            - lib/cmake/z3/Z3Config.cmake
+            - lib/cmake/z3/Z3ConfigVersion.cmake
+            - lib/pkgconfig/z3.pc
+      - script:
+        - z3 --help
+
+  - package:
+      name: z3-solver
+    build:
+      script:
+        - build_py
+    requirements:
+      build:
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      host:
+        - ${{ pin_subpackage("libz3", exact=True) }}
+        - python
+        - setuptools
+        - pip
+        - if: linux
+          then: libgomp
+        - if: osx
+          then: llvm-openmp
+      run:
+        - ${{ pin_subpackage("libz3", exact=True) }}
+        - python
+
+    tests:
+      - python:
+          imports:
+            - z3
+          pip_check: true
+
+  - package:
+      # compatibility for previous name of library
+      name: z3prover
+    requirements:
+      host:
+        - ${{ pin_subpackage("libz3", exact=True) }}
+      run:
+        - ${{ pin_subpackage("libz3", exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+    tests:
+      - script:
+        - z3 --help
 
 about:
   license: MIT
