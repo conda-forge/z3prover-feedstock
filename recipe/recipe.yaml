@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.15.3"
+  version: "4.15.4"
 
 recipe:
   name: z3prover
@@ -9,10 +9,10 @@ recipe:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: 8cfd4d6ab47cafe931446e2c03e10df651d40487730c819f1bf420987144824f
+  sha256: dae526252cb0585c8c863292ebec84cace4901a014b190a73f14087dd08d252b
 
 build:
-  number: 2
+  number: 0
   skip: win
 
 outputs:
@@ -53,10 +53,10 @@ outputs:
             # versioned libraries
             - if: linux
               then:
-              - lib/libz3.so.${{ version }}*
+                - lib/libz3.so.${{ version }}*
             - if: osx
               then:
-              - lib/libz3.${{ version }}*.dylib
+                - lib/libz3.${{ version }}*.dylib
             # binaries
             - bin/z3
             # headers
@@ -81,7 +81,7 @@ outputs:
             - lib/cmake/z3/Z3ConfigVersion.cmake
             - lib/pkgconfig/z3.pc
       - script:
-        - z3 --help
+          - z3 --help
 
   - package:
       name: z3-solver
@@ -129,7 +129,7 @@ outputs:
         - ${{ pin_subpackage("libz3", upper_bound='x') }}
     tests:
       - script:
-        - z3 --help
+          - z3 --help
 
 about:
   license: MIT
