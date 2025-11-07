@@ -13,7 +13,10 @@ source:
 
 build:
   number: 0
-  skip: win
+  skip:
+    - win
+    # debug: only cross-compile
+    - build_platform == target_platform
 
 outputs:
   - package:
