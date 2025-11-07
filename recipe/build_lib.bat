@@ -1,7 +1,7 @@
 @echo on
 
 mkdir build_lib
-cd_build_lib
+cd build_lib
 
 cmake -G "Ninja" ^
     %CMAKE_ARGS ^
