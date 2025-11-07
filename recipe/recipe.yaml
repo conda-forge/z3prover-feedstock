@@ -95,8 +95,10 @@ outputs:
       build:
         - if: build_platform != target_platform
           then:
-            - python
             - cross-python_${{ target_platform }}
+        # even for native builds, so we can uniformly use
+        # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
+        - python
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
