@@ -2,6 +2,7 @@ schema_version: 1
 
 context:
   version: "4.15.4"
+  lib: ${{ "" if unix else "Library/" }}
 
 recipe:
   name: z3prover
@@ -13,7 +14,8 @@ source:
 
 build:
   number: 0
-  skip: win
+  # debug
+  skip: not win
 
 outputs:
   - package:
@@ -29,14 +31,12 @@ outputs:
         - ninja
         - if: linux
           then: libgomp
-        - if: osx
-          then: llvm-openmp
+          else: llvm-openmp
       host:
         - python *
         - if: linux
           then: libgomp
-        - if: osx
-          then: llvm-openmp
+          else: llvm-openmp
       ignore_run_exports:
         from_package:
           - python
@@ -50,7 +50,7 @@ outputs:
           lib:
             - z3
           files:
-            # versioned libraries
+            # versioned libraries (unix-only; windows doesn't do that)
             - if: linux
               then:
                 - lib/libz3.so.${{ version }}*
@@ -58,28 +58,28 @@ outputs:
               then:
                 - lib/libz3.${{ version }}*.dylib
             # binaries
-            - bin/z3
+            - ${{ lib }}bin/z3
             # headers
-            - include/z3_algebraic.h
-            - include/z3_api.h
-            - include/z3_ast_containers.h
-            - include/z3_fixedpoint.h
-            - include/z3_fpa.h
-            - include/z3.h
-            - include/z3++.h
-            - include/z3_macros.h
-            - include/z3_optimization.h
-            - include/z3_polynomial.h
-            - include/z3_rcf.h
-            - include/z3_v1.h
-            - include/z3_spacer.h
-            - include/z3_version.h
+            - ${{ lib }}include/z3_algebraic.h
+            - ${{ lib }}include/z3_api.h
+            - ${{ lib }}include/z3_ast_containers.h
+            - ${{ lib }}include/z3_fixedpoint.h
+            - ${{ lib }}include/z3_fpa.h
+            - ${{ lib }}include/z3.h
+            - ${{ lib }}include/z3++.h
+            - ${{ lib }}include/z3_macros.h
+            - ${{ lib }}include/z3_optimization.h
+            - ${{ lib }}include/z3_polynomial.h
+            - ${{ lib }}include/z3_rcf.h
+            - ${{ lib }}include/z3_v1.h
+            - ${{ lib }}include/z3_spacer.h
+            - ${{ lib }}include/z3_version.h
             # cmake & pkgconfig metadata
-            - lib/cmake/z3/Z3Targets.cmake
-            - lib/cmake/z3/Z3Targets-release.cmake
-            - lib/cmake/z3/Z3Config.cmake
-            - lib/cmake/z3/Z3ConfigVersion.cmake
-            - lib/pkgconfig/z3.pc
+            - ${{ lib }}lib/cmake/z3/Z3Targets.cmake
+            - ${{ lib }}lib/cmake/z3/Z3Targets-release.cmake
+            - ${{ lib }}lib/cmake/z3/Z3Config.cmake
+            - ${{ lib }}lib/cmake/z3/Z3ConfigVersion.cmake
+            - ${{ lib }}lib/pkgconfig/z3.pc
       - script:
           - z3 --help
 
@@ -96,8 +96,7 @@ outputs:
         - ninja
         - if: linux
           then: libgomp
-        - if: osx
-          then: llvm-openmp
+          else: llvm-openmp
       host:
         - ${{ pin_subpackage("libz3", exact=True) }}
         - python
@@ -105,8 +104,7 @@ outputs:
         - pip
         - if: linux
           then: libgomp
-        - if: osx
-          then: llvm-openmp
+          else: llvm-openmp
       run:
         - ${{ pin_subpackage("libz3", exact=True) }}
         - python
