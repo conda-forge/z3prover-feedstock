@@ -54,7 +54,7 @@ outputs:
             - if: linux
               then:
                 - lib/libz3.so.${{ version }}*
-              elif: osx
+            - if: osx
               then:
                 - lib/libz3.${{ version }}*.dylib
             # binaries
