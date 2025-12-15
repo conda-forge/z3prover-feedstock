@@ -26,6 +26,12 @@ outputs:
         - build_lib
     requirements:
       build:
+        - if: build_platform != host_platform
+          then:
+            - cross-python_${{ host_platform }}
+        # even for native builds, so we can uniformly use
+        # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
+        - python *
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
