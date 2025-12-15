@@ -93,9 +93,9 @@ outputs:
         - build_py
     requirements:
       build:
-        - if: build_platform != target_platform
+        - if: build_platform != host_platform
           then:
-            - cross-python_${{ target_platform }}
+            - cross-python_${{ host_platform }}
         # even for native builds, so we can uniformly use
         # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
         - python
