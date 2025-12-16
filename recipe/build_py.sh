@@ -18,3 +18,6 @@ cmake -G "Ninja" \
     -DZ3_INSTALL_PYTHON_BINDINGS=TRUE \
     ..
 ninja install
+
+cd ..
+rm -rf build_py
