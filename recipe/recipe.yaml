@@ -47,8 +47,9 @@ outputs:
         - if: osx
           then: llvm-openmp
       ignore_run_exports:
-        from_package:
+        by_name:
           - python
+          - python_abi
       run_exports:
         - ${{ pin_subpackage("libz3", upper_bound='x') }}
       run_constraints:
