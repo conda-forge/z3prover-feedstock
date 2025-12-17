@@ -15,7 +15,7 @@ source:
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
 
 build:
-  number: 1
+  number: 2
   skip: win
 
 outputs:
@@ -26,6 +26,12 @@ outputs:
         - build_lib
     requirements:
       build:
+        - if: build_platform != host_platform
+          then:
+            - cross-python_${{ host_platform }}
+        # even for native builds, so we can uniformly use
+        # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
+        - python *
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
@@ -41,8 +47,9 @@ outputs:
         - if: osx
           then: llvm-openmp
       ignore_run_exports:
-        from_package:
+        by_name:
           - python
+          - python_abi
       run_exports:
         - ${{ pin_subpackage("libz3", upper_bound='x') }}
       run_constraints:
@@ -93,6 +100,12 @@ outputs:
         - build_py
     requirements:
       build:
+        - if: build_platform != host_platform
+          then:
+            - cross-python_${{ host_platform }}
+        # even for native builds, so we can uniformly use
+        # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
+        - python
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
