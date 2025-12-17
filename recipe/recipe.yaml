@@ -15,7 +15,7 @@ source:
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
 
 build:
-  number: 1
+  number: 2
   skip: win
 
 outputs:
