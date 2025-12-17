@@ -55,16 +55,20 @@ outputs:
 
     tests:
       - package_contents:
-          lib:
-            - z3
           files:
-            # versioned libraries (unix-only; windows doesn't do that)
+            # libraries
             - if: linux
               then:
+                - lib/libz3.so
                 - lib/libz3.so.${{ version }}*
             - if: osx
               then:
+                - lib/libz3.dylib
                 - lib/libz3.${{ version }}*.dylib
+            - if: win
+              then:
+                - Library/bin/libz3.dll
+                - Library/lib/libz3.lib
             # binaries
             - if: unix
               then:
