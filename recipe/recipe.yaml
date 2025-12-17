@@ -10,9 +10,12 @@ recipe:
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
   sha256: dae526252cb0585c8c863292ebec84cace4901a014b190a73f14087dd08d252b
+  patches:
+    # backport https://github.com/Z3Prover/z3/pull/8088
+    - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
 
 build:
-  number: 0
+  number: 1
   skip: win
 
 outputs:
