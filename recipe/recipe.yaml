@@ -16,7 +16,7 @@ source:
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - package:
@@ -136,6 +136,8 @@ outputs:
           imports:
             - z3
           pip_check: true
+      - script:
+        - python -c "from importlib.metadata import version; assert version("z3-solver") == '${{ version }}'"
 
   - package:
       # compatibility for previous name of library
