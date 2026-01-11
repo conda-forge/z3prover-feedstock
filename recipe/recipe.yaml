@@ -3,6 +3,7 @@ schema_version: 1
 context:
   version: "4.15.4"
   lib: ${{ "" if unix else "Library/" }}
+  python_check_max: "3.14"
 
 recipe:
   name: z3prover
@@ -102,8 +103,11 @@ outputs:
   - package:
       name: z3-solver
     build:
+      skip: not is_python_min
+      python:
+        version_independent: true
       script:
-        - build_py
+        file: build_py
     requirements:
       build:
         - if: build_platform != host_platform
@@ -111,7 +115,7 @@ outputs:
             - cross-python_${{ host_platform }}
         # even for native builds, so we can uniformly use
         # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
-        - python
+        - python ${{ python_min }}.*
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
@@ -121,7 +125,7 @@ outputs:
           else: llvm-openmp
       host:
         - ${{ pin_subpackage("libz3", exact=True) }}
-        - python
+        - python ${{ python_min }}.*
         - setuptools
         - pip
         - if: linux
@@ -129,15 +133,19 @@ outputs:
           else: llvm-openmp
       run:
         - ${{ pin_subpackage("libz3", exact=True) }}
-        - python
-
+        - python >=${{ python_min }}
     tests:
       - python:
-          imports:
-            - z3
+          imports: z3
           pip_check: true
-      - script:
-        - python -c "from importlib.metadata import version; assert version("z3-solver") == '${{ version }}'"
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
+      - requirements:
+          run:
+            - python !=${{ python_min }}.*
+        script:
+          file: run_test.py
 
   - package:
       # compatibility for previous name of library

@@ -19,8 +19,8 @@ cmake -G "Ninja" \
     ..
 ninja install
 
-cd ..
-rm -rf build_py
-
 cd "${SRC_DIR}/src/api/python"
+# patch to skip re-re-compilation, binary re-deployment
+sed -i 's/cmdclass=/# cmdclass=/' setup.py
+sed -i 's/data_files=/# data_files=/' setup.py
 "${PYTHON}" -m pip install . --no-deps --no-build-isolation --disable-pip-version-check
