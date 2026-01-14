@@ -24,6 +24,6 @@ if %ERRORLEVEL% neq 0 exit 1
 cmake --install .
 if %ERRORLEVEL% neq 0 exit 1
 
-cd %SRC_DIR%\src\api\python
-%PYTHON% pip install . --no-deps --no-build-isolation --disable-pip-version-check
+cd "%SRC_DIR%\src\api\python"
+"%PYTHON%" -m pip install . --no-deps --no-build-isolation --disable-pip-version-check
 if %ERRORLEVEL% neq 0 exit 1

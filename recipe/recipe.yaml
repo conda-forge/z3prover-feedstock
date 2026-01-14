@@ -15,7 +15,7 @@ source:
   patches:
     # backport https://github.com/Z3Prover/z3/pull/8088
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
-    - patches/0002-no-python-rebuild.patch
+    - patches/0002-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
   number: 3
@@ -136,18 +136,25 @@ outputs:
         - ${{ pin_subpackage("libz3", exact=True) }}
         - python >=${{ python_min }}
     tests:
+      - package_contents:
+          site_packages:
+            - z3-${{ version }}.*.dist-info/METADATA
       - python:
-          imports: z3
+          imports:
+            - z3
           pip_check: true
           python_version:
             - ${{ python_min }}.*
             - ${{ python_check_max }}.*
-      - requirements:
+      - files:
+          recipe:
+            - test_z3.py
+        requirements:
           run:
-            - python !=${{ python_min }}.*
             - pytest
+            - python !=${{ python_min }}.*
         script:
-          file: run_test.py
+          - pytest -vv --tb=long --color=yes
 
   - package:
       # compatibility for previous name of library

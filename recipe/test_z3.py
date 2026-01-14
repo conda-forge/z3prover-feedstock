@@ -19,8 +19,3 @@ def test_z3():
     s.add(x + y > 5, x > 1, y > 1)
     print(s.check())
     print(s.model())
-
-if __name__ == "__main__":
-    import sys
-    import pytest
-    sys.exit(pytest.main([__file__, "-svv", "--tb=long", "--color=yes"]))
