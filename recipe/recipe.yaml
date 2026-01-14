@@ -15,6 +15,7 @@ source:
   patches:
     # backport https://github.com/Z3Prover/z3/pull/8088
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
+    - patches/0002-no-python-rebuild.patch
 
 build:
   number: 3
@@ -144,6 +145,7 @@ outputs:
       - requirements:
           run:
             - python !=${{ python_min }}.*
+            - pytest
         script:
           file: run_test.py
 

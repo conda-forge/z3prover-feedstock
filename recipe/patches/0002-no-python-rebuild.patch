@@ -1,0 +1,14 @@
+diff --git a/src/api/python/setup.py b/src/api/python/setup.py
+index 39ae7df..5c37e83 100644
+--- a/src/api/python/setup.py
++++ b/src/api/python/setup.py
+@@ -347,6 +347,9 @@ setup(
+     package_data={
+         'z3': [os.path.join('lib', '*'), os.path.join('include', '*.h'), os.path.join('include', 'c++', '*.h')]
+     },
++)
++"""
+     data_files=[('bin',[os.path.join('bin',EXECUTABLE_FILE)])],
+     cmdclass={'build': build, 'develop': develop, 'sdist': sdist, 'bdist_wheel': bdist_wheel},
+ )
++"""

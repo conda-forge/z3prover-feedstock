@@ -1,10 +1,26 @@
-from importlib.metadata import version
-assert version("z3-solver").startswith('${{ version }}.')
-
+import os
+import importlib.metadata
 import z3
-x = z3.Real('x')
-y = z3.Real('y')
-s = z3.Solver()
-s.add(x + y > 5, x > 1, y > 1)
-print(s.check())
-print(s.model())
+
+PKG_VERSION = os.environ["PKG_VERSION"]
+PKG_NAME = os.environ["PKG_NAME"]
+
+def test_version():
+    module_version = importlib.metadata.version(PKG_NAME)
+    libz3_version = z3.get_version_string()
+    print(f"{PKG_NAME} module version:", module_version)
+    print("libz3 version:", libz3_version)
+    assert module_version.startswith(f"{PKG_VERSION}.")
+    assert libz3_version == PKG_VERSION
+
+def test_z3():
+    s = z3.Solver()
+    x, y = z3.Real('x'), z3.Real('y')
+    s.add(x + y > 5, x > 1, y > 1)
+    print(s.check())
+    print(s.model())
+
+if __name__ == "__main__":
+    import sys
+    import pytest
+    sys.exit(pytest.main([__file__, "-svv", "--tb=long", "--color=yes"]))
