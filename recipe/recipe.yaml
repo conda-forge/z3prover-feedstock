@@ -2,6 +2,8 @@ schema_version: 1
 
 context:
   version: "4.15.4"
+  # the last non-0 micro version was 4.4.2.1 in 2016
+  version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
   python_check_max: "3.14"
 
@@ -103,6 +105,7 @@ outputs:
 
   - package:
       name: z3-solver
+      version: ${{ version_with_py_micro }}
     build:
       skip: not is_python_min
       python:
@@ -138,7 +141,7 @@ outputs:
     tests:
       - package_contents:
           site_packages:
-            - z3-${{ version }}.*.dist-info/METADATA
+            - z3_solver-${{ version_with_py_micro }}.dist-info/METADATA
       - python:
           imports:
             - z3
