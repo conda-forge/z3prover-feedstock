@@ -1,7 +1,7 @@
 From e982abae8822c76122876917cf79d10dc0f33a90 Mon Sep 17 00:00:00 2001
 From: h-vetinari <h.vetinari@gmx.com>
 Date: Wed, 17 Dec 2025 04:50:37 +1100
-Subject: [PATCH] BLD: Add CMake option to build Python bindings without
+Subject: [PATCH 1/2] BLD: Add CMake option to build Python bindings without
  rebuilding libz3 (redux) (#8088)
 
 * Add CMake option to build only Python bindings without rebuilding libz3
