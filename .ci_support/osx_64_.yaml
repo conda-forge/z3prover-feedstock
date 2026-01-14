@@ -14,19 +14,14 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
+is_python_min:
+- false
+- true
 llvm_openmp:
 - '19'
 macos_machine:
 - x86_64-apple-darwin13.4.0
-pin_run_as_build:
-  python:
-    min_pin: x.x
-    max_pin: x.x
-python:
-- 3.10.* *_cpython
-- 3.11.* *_cpython
-- 3.12.* *_cpython
-- 3.13.* *_cp313
-- 3.14.* *_cp314
+python_min:
+- '3.10'
 target_platform:
 - osx-64

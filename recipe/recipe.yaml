@@ -2,7 +2,10 @@ schema_version: 1
 
 context:
   version: "4.15.4"
+  # the last non-0 micro version was 4.4.2.1 in 2016
+  version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
+  python_check_max: "3.14"
 
 recipe:
   name: z3prover
@@ -14,9 +17,10 @@ source:
   patches:
     # backport https://github.com/Z3Prover/z3/pull/8088
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
+    - patches/0002-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - package:
@@ -101,9 +105,13 @@ outputs:
 
   - package:
       name: z3-solver
+      version: ${{ version_with_py_micro }}
     build:
+      skip: not is_python_min
+      python:
+        version_independent: true
       script:
-        - build_py
+        file: build_py
     requirements:
       build:
         - if: build_platform != host_platform
@@ -111,7 +119,7 @@ outputs:
             - cross-python_${{ host_platform }}
         # even for native builds, so we can uniformly use
         # -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python in build_py.sh
-        - python
+        - python ${{ python_min }}.*
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
@@ -121,7 +129,7 @@ outputs:
           else: llvm-openmp
       host:
         - ${{ pin_subpackage("libz3", exact=True) }}
-        - python
+        - python ${{ python_min }}.*
         - setuptools
         - pip
         - if: linux
@@ -129,13 +137,27 @@ outputs:
           else: llvm-openmp
       run:
         - ${{ pin_subpackage("libz3", exact=True) }}
-        - python
-
+        - python >=${{ python_min }}
     tests:
+      - package_contents:
+          site_packages:
+            - z3_solver-${{ version_with_py_micro }}.dist-info/METADATA
       - python:
           imports:
             - z3
           pip_check: true
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
+      - files:
+          recipe:
+            - test_z3.py
+        requirements:
+          run:
+            - pytest
+            - python !=${{ python_min }}.*
+        script:
+          - pytest -vv --tb=long --color=yes
 
   - package:
       # compatibility for previous name of library

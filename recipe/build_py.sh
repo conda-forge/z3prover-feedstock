@@ -19,5 +19,5 @@ cmake -G "Ninja" \
     ..
 ninja install
 
-cd ..
-rm -rf build_py
+cd "${SRC_DIR}/src/api/python"
+"${PYTHON}" -m pip install . --no-deps --no-build-isolation --disable-pip-version-check
