@@ -10,6 +10,10 @@ if [[ "$target_platform" == "linux-ppc64le" ]]; then
     CXXFLAGS="$(echo $CXXFLAGS | sed 's/-fno-plt //g')"
 fi
 
+if [[ "$target_platform" == osx-* ]]; then
+    CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+fi
+
 cmake -G "Ninja" \
     ${CMAKE_ARGS} \
     -DPython3_EXECUTABLE=${BUILD_PREFIX}/bin/python \
