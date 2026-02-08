@@ -15,9 +15,7 @@ source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
   sha256: 385b6a40f2d10261ef4220cbcd0979369cba2c86e2faee8584d4d06c2f992c05
   patches:
-    # backport https://github.com/Z3Prover/z3/pull/8088
-    - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
-    - patches/0002-avoid-custom-re-build-commands-and-data-files.patch
+    - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
   number: 0
