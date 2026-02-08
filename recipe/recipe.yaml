@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.15.4"
+  version: "4.15.5"
   # the last non-0 micro version was 4.4.2.1 in 2016
   version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
@@ -13,14 +13,14 @@ recipe:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: dae526252cb0585c8c863292ebec84cace4901a014b190a73f14087dd08d252b
+  sha256: 385b6a40f2d10261ef4220cbcd0979369cba2c86e2faee8584d4d06c2f992c05
   patches:
     # backport https://github.com/Z3Prover/z3/pull/8088
     - patches/0001-BLD-Add-CMake-option-to-build-Python-bindings-withou.patch
     - patches/0002-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 3
+  number: 0
 
 outputs:
   - package:
