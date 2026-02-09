@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.15.5"
+  version: "4.15.7"
   # the last non-0 micro version was 4.4.2.1 in 2016
   version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
@@ -13,7 +13,7 @@ recipe:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: 385b6a40f2d10261ef4220cbcd0979369cba2c86e2faee8584d4d06c2f992c05
+  sha256: 6033d04ee4c4260f378cf351a2c17c97ef11f185127d3d4721eb9df3d6a8575a
   patches:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
