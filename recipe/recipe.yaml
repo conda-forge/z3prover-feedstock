@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.16.0"
+  version: "5.1.0"
   # the last non-0 micro version was 4.4.2.1 in 2016
   version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
@@ -13,7 +13,7 @@ recipe:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: c68c3e5e4810b16126b8cb4c47eee85c1ac3e24a81914c8e371b40de9dd33ac7
+  sha256: c433e1add0431c5edf1644bd9951c40588024d2d288f0e4215e5fcb6e3b4277d
   patches:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
@@ -51,7 +51,7 @@ outputs:
           - python
           - python_abi
       run_exports:
-        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+        - ${{ pin_subpackage("libz3", upper_bound='x.x') }}
       run_constraints:
         - z3prover ==${{ version }}
 
@@ -166,7 +166,7 @@ outputs:
       run:
         - ${{ pin_subpackage("libz3", exact=True) }}
       run_exports:
-        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+        - ${{ pin_subpackage("libz3", upper_bound='x.x') }}
     tests:
       - script:
           - z3 --help
