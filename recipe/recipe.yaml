@@ -18,7 +18,7 @@ source:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
@@ -51,7 +51,7 @@ outputs:
           - python
           - python_abi
       run_exports:
-        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+        - ${{ pin_subpackage("libz3", upper_bound='x.x') }}
       run_constraints:
         - z3prover ==${{ version }}
 
@@ -166,7 +166,7 @@ outputs:
       run:
         - ${{ pin_subpackage("libz3", exact=True) }}
       run_exports:
-        - ${{ pin_subpackage("libz3", upper_bound='x') }}
+        - ${{ pin_subpackage("libz3", upper_bound='x.x') }}
     tests:
       - script:
           - z3 --help
