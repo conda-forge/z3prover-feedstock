@@ -7,7 +7,6 @@ channel_targets:
 cxx_compiler:
 - vs2022
 is_python_min:
-- false
 - true
 python_min:
 - '3.10'
