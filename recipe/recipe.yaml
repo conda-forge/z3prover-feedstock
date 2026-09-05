@@ -18,7 +18,7 @@ source:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
