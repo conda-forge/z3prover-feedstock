@@ -15,6 +15,9 @@ docker_image:
 is_python_min:
 - true
 python_min:
-- '3.10'
+- '3.11'
 target_platform:
 - linux-ppc64le
+zip_keys:
+- - is_python_min
+  - channel_sources

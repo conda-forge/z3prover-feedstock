@@ -18,7 +18,11 @@ source:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 0
+  number: 1
+  variant:
+    # we don't want separate jobs if the newest python is in release candidate phase
+    ignore_keys:
+      - channel_sources
 
 outputs:
   - package:
