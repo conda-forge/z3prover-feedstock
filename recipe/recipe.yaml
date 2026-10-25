@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "5.1.0"
+  version: "5.3.2"
   # the last non-0 micro version was 4.4.2.1 in 2016
   version_with_py_micro: "${{ version }}.0"
   lib: ${{ "" if unix else "Library/" }}
@@ -13,12 +13,12 @@ recipe:
 
 source:
   url: https://github.com/Z3Prover/z3/archive/refs/tags/z3-${{ version }}.tar.gz
-  sha256: c433e1add0431c5edf1644bd9951c40588024d2d288f0e4215e5fcb6e3b4277d
+  sha256: df91b87822f5f8b6710af1f2419ba98758cd647dee3a8f0d070f128b47024dbe
   patches:
     - patches/0001-avoid-custom-re-build-commands-and-data-files.patch
 
 build:
-  number: 1
+  number: 0
   variant:
     # we don't want separate jobs if the newest python is in release candidate phase
     ignore_keys:
